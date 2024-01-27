@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <title>Sci-fy</title>
+</head>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
+form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: #333;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input,
+textarea {
+    margin-bottom: 16px;
+}
+
+button {    
+    min-width: 160px;
+    padding: 10px 15px;
+    background-color: #4caf50;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #317834;
+}
+
+.container {
+    width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.card {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+h1 {
+    max-width: 70%;
+    color: #333;
+    margin: 10px;
+    padding: 15px;
+}
+
+
+p {
+    color: #666;
+}
+
+#films-section {
+    max-width: 90%;
+}
+
+#form-section {
+    margin-top: 30px;
+    min-width: 300px;
+    position: fixed;
+    top: 0;
+    right: 50px;
+}
+
+</style>
+<body>
+    <div class="container">
+        <h1> Top Sci-fy movies:</h1>
+    </div>
+    <div class="container">
+        <section id="films-section"> 
+
+            {{ range .Films }}
+                {{ block "film-card-element" .}} 
+                    <div class="card">
+                        <h2>{{ .Title }}</h2>
+                        <p><strong>Director:</strong> {{ .Director }}</p>
+                        <p><strong>Plot:</strong> {{ .Plot }}</p>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </section>
+    
+        <section id="form-section" >  
+            <form class="card" hx-post="/add-film/" hx-target="#films-section" hx-swap="afterbegin">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+        
+                <label for="director">Director:</label>
+                <input type="text" id="director" name="director" required>
+        
+                <label for="plot">Plot:</label>
+                <textarea id="plot" name="plot" rows="4" required></textarea>
+        
+                <button type="submit"> Submit </button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

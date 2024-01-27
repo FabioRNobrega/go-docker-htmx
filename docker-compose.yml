@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.1
+    environment:
+      POSTGRES_DB: perene-golang-x
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
